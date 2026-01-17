@@ -6,14 +6,75 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		43CACB532F1B946400CCA146 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CACB522F1B946300CCA146 /* WidgetKit.framework */; };
+		43CACB552F1B946400CCA146 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CACB542F1B946400CCA146 /* SwiftUI.framework */; };
+		43CACB662F1B946600CCA146 /* Big Timer WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 43CACB502F1B946300CCA146 /* Big Timer WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		43CACB642F1B946600CCA146 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43CACB342F1B8D6700CCA146 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43CACB4F2F1B946300CCA146;
+			remoteInfo = "Big Timer WidgetExtension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		43CACB6B2F1B946600CCA146 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				43CACB662F1B946600CCA146 /* Big Timer WidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		43CACB3C2F1B8D6700CCA146 /* Big Timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Big Timer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		43CACB502F1B946300CCA146 /* Big Timer WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Big Timer WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		43CACB522F1B946300CCA146 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		43CACB542F1B946400CCA146 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		43CACB672F1B946600CCA146 /* Exceptions for "Big Timer Widget" folder in "Big Timer WidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 43CACB4F2F1B946300CCA146 /* Big Timer WidgetExtension */;
+		};
+		43CACB6F2F1B94AF00CCA146 /* Exceptions for "Big Timer" folder in "Big Timer WidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				TimerActivityAttributes.swift,
+			);
+			target = 43CACB4F2F1B946300CCA146 /* Big Timer WidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		43CACB3E2F1B8D6700CCA146 /* Big Timer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				43CACB6F2F1B94AF00CCA146 /* Exceptions for "Big Timer" folder in "Big Timer WidgetExtension" target */,
+			);
 			path = "Big Timer";
+			sourceTree = "<group>";
+		};
+		43CACB562F1B946400CCA146 /* Big Timer Widget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				43CACB672F1B946600CCA146 /* Exceptions for "Big Timer Widget" folder in "Big Timer WidgetExtension" target */,
+			);
+			path = "Big Timer Widget";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -26,6 +87,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		43CACB4D2F1B946300CCA146 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43CACB552F1B946400CCA146 /* SwiftUI.framework in Frameworks */,
+				43CACB532F1B946400CCA146 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -33,6 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				43CACB3E2F1B8D6700CCA146 /* Big Timer */,
+				43CACB562F1B946400CCA146 /* Big Timer Widget */,
+				43CACB512F1B946300CCA146 /* Frameworks */,
 				43CACB3D2F1B8D6700CCA146 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,8 +113,18 @@
 			isa = PBXGroup;
 			children = (
 				43CACB3C2F1B8D6700CCA146 /* Big Timer.app */,
+				43CACB502F1B946300CCA146 /* Big Timer WidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		43CACB512F1B946300CCA146 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				43CACB522F1B946300CCA146 /* WidgetKit.framework */,
+				43CACB542F1B946400CCA146 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -55,10 +137,12 @@
 				43CACB382F1B8D6700CCA146 /* Sources */,
 				43CACB392F1B8D6700CCA146 /* Frameworks */,
 				43CACB3A2F1B8D6700CCA146 /* Resources */,
+				43CACB6B2F1B946600CCA146 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				43CACB652F1B946600CCA146 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				43CACB3E2F1B8D6700CCA146 /* Big Timer */,
@@ -69,6 +153,28 @@
 			productName = "Big Timer";
 			productReference = 43CACB3C2F1B8D6700CCA146 /* Big Timer.app */;
 			productType = "com.apple.product-type.application";
+		};
+		43CACB4F2F1B946300CCA146 /* Big Timer WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43CACB682F1B946600CCA146 /* Build configuration list for PBXNativeTarget "Big Timer WidgetExtension" */;
+			buildPhases = (
+				43CACB4C2F1B946300CCA146 /* Sources */,
+				43CACB4D2F1B946300CCA146 /* Frameworks */,
+				43CACB4E2F1B946300CCA146 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				43CACB562F1B946400CCA146 /* Big Timer Widget */,
+			);
+			name = "Big Timer WidgetExtension";
+			packageProductDependencies = (
+			);
+			productName = "Big Timer WidgetExtension";
+			productReference = 43CACB502F1B946300CCA146 /* Big Timer WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -81,6 +187,9 @@
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					43CACB3B2F1B8D6700CCA146 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					43CACB4F2F1B946300CCA146 = {
 						CreatedOnToolsVersion = 26.2;
 					};
 				};
@@ -100,12 +209,20 @@
 			projectRoot = "";
 			targets = (
 				43CACB3B2F1B8D6700CCA146 /* Big Timer */,
+				43CACB4F2F1B946300CCA146 /* Big Timer WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		43CACB3A2F1B8D6700CCA146 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43CACB4E2F1B946300CCA146 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +239,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		43CACB4C2F1B946300CCA146 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		43CACB652F1B946600CCA146 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43CACB4F2F1B946300CCA146 /* Big Timer WidgetExtension */;
+			targetProxy = 43CACB642F1B946600CCA146 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		43CACB452F1B8D6900CCA146 /* Debug */ = {
@@ -251,8 +383,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 58M74K3SMU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -282,8 +417,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 58M74K3SMU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -299,6 +437,66 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		43CACB692F1B946600CCA146 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 58M74K3SMU;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Big Timer Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Big Timer Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "lee-donghyun.Big-Timer.Big-Timer-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		43CACB6A2F1B946600CCA146 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 58M74K3SMU;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Big Timer Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Big Timer Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "lee-donghyun.Big-Timer.Big-Timer-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -323,6 +521,15 @@
 			buildConfigurations = (
 				43CACB482F1B8D6900CCA146 /* Debug */,
 				43CACB492F1B8D6900CCA146 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43CACB682F1B946600CCA146 /* Build configuration list for PBXNativeTarget "Big Timer WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43CACB692F1B946600CCA146 /* Debug */,
+				43CACB6A2F1B946600CCA146 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

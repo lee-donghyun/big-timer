@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import ActivityKit
 
 @main
 struct Big_TimerApp: App {
+    @StateObject private var sessionManager = WorkoutSessionManager()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView(sessionManager: sessionManager)
         }
     }
 }
