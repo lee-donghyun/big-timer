@@ -86,6 +86,9 @@ struct ContentView: View {
                                 } else {
                                     selectedRoutines.insert(routine)
                                 }
+                                if isRunning {
+                                    updateLiveActivity()
+                                }
                             }) {
                                 Text(routine)
                                     .font(.system(size: 14, weight: .medium, design: .monospaced))
@@ -136,6 +139,22 @@ struct ContentView: View {
                     .padding(.horizontal, 24)
                 } else {
                     HStack(spacing: 12) {
+                        Button(action: {
+                            startTimer()
+                        }) {
+                            Text("Continue")
+                                .font(.system(size: 15, weight: .medium, design: .monospaced))
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 50)
+                                .background(Color.black)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.white, lineWidth: 1)
+                                )
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                        }
+                        
                         Button(action: {
                             resetTimer()
                         }) {
