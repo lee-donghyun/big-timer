@@ -13,14 +13,31 @@ struct Big_Timer_WidgetLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: TimerActivityAttributes.self) { context in
             // Lock screen/banner UI
-            HStack {
-                Text("Timer")
-                    .font(.system(size: 13, weight: .medium, design: .monospaced))
-                    .foregroundColor(.white)
-                Spacer()
-                Text(formatTime(context.state.seconds))
-                    .font(.system(size: 20, weight: .regular, design: .monospaced))
-                    .foregroundColor(.white)
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text("Timer")
+                        .font(.system(size: 13, weight: .medium, design: .monospaced))
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text(formatTime(context.state.seconds))
+                        .font(.system(size: 20, weight: .regular, design: .monospaced))
+                        .foregroundColor(.white)
+                }
+                
+                if !context.state.routines.isEmpty {
+                    HStack(alignment: .top, spacing: 6) {
+                        ForEach(context.state.routines, id: \.self) { routine in
+                            Text(routine)
+                                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                                .foregroundColor(.black)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(Color.white)
+                                .clipShape(Capsule())
+                        }
+                        Spacer()
+                    }
+                }
             }
             .padding(16)
             .background(Color.black)
