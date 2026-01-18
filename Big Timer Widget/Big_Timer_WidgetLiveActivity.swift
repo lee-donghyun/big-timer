@@ -83,12 +83,11 @@ struct Big_Timer_WidgetLiveActivity: Widget {
                     .font(.system(size: 12, weight: .medium))
                     .foregroundColor(.white)
             } compactTrailing: {
-                Text(context.state.startDate, style: .timer)
-                    .font(.system(size: 12, weight: .regular, design: .monospaced))
+                Text(timerInterval: context.state.startDate...Date.distantFuture, countsDown: false)
+                    .font(.system(size: 11, weight: .regular, design: .monospaced))
                     .foregroundColor(.white)
                     .monospacedDigit()
-                    .minimumScaleFactor(0.8)
-                    .lineLimit(1)
+                    .frame(width: 42, alignment: .trailing)
             } minimal: {
                 Image(systemName: "timer")
                     .font(.system(size: 12, weight: .medium))
