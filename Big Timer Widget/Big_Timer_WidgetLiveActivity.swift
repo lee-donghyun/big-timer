@@ -13,7 +13,7 @@ struct Big_Timer_WidgetLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: TimerActivityAttributes.self) { context in
             // Lock screen/banner UI
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .trailing, spacing: 8) {
                 HStack {
                     Text("Timer")
                         .font(.system(size: 13, weight: .medium, design: .monospaced))
@@ -48,7 +48,7 @@ struct Big_Timer_WidgetLiveActivity: Widget {
             DynamicIsland {
                 // Expanded UI
                 DynamicIslandExpandedRegion(.center) {
-                    VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .trailing, spacing: 12) {
                         HStack {
                             Text("Timer")
                                 .font(.system(size: 20, weight: .medium, design: .monospaced))
@@ -75,7 +75,7 @@ struct Big_Timer_WidgetLiveActivity: Widget {
                             }
                         }
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
                     .padding(.horizontal, 16)
                 }
             } compactLeading: {
@@ -84,10 +84,10 @@ struct Big_Timer_WidgetLiveActivity: Widget {
                     .foregroundColor(.white)
             } compactTrailing: {
                 Text(timerInterval: context.state.startDate...Date.distantFuture, countsDown: false)
-                    .font(.system(size: 11, weight: .regular, design: .monospaced))
+                    .font(.system(size: 14, weight: .regular, design: .monospaced))
                     .foregroundColor(.white)
                     .monospacedDigit()
-                    .frame(width: 42, alignment: .trailing)
+                    .frame(width: 48, alignment: .trailing)
             } minimal: {
                 Image(systemName: "timer")
                     .font(.system(size: 12, weight: .medium))
