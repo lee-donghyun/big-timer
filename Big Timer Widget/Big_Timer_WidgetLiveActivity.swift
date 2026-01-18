@@ -19,9 +19,10 @@ struct Big_Timer_WidgetLiveActivity: Widget {
                         .font(.system(size: 13, weight: .medium, design: .monospaced))
                         .foregroundColor(.white)
                     Spacer()
-                    Text(formatTime(context.state.seconds))
+                    Text(context.state.startDate, style: .timer)
                         .font(.system(size: 20, weight: .regular, design: .monospaced))
                         .foregroundColor(.white)
+                        .monospacedDigit()
                 }
                 
                 if !context.state.routines.isEmpty {
@@ -53,7 +54,7 @@ struct Big_Timer_WidgetLiveActivity: Widget {
                                 .font(.system(size: 20, weight: .medium, design: .monospaced))
                                 .foregroundColor(.white)
                             Spacer()
-                            Text(formatTime(context.state.seconds))
+                            Text(context.state.startDate, style: .timer)
                                 .font(.system(size: 24, weight: .regular, design: .monospaced))
                                 .foregroundColor(.white)
                                 .monospacedDigit()
@@ -82,7 +83,7 @@ struct Big_Timer_WidgetLiveActivity: Widget {
                     .font(.system(size: 12, weight: .medium))
                     .foregroundColor(.white)
             } compactTrailing: {
-                Text(formatTimeCompact(context.state.seconds))
+                Text(context.state.startDate, style: .timer)
                     .font(.system(size: 12, weight: .regular, design: .monospaced))
                     .foregroundColor(.white)
                     .monospacedDigit()

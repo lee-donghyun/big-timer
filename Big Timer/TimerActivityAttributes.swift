@@ -10,7 +10,7 @@ import SwiftUI
 
 struct TimerActivityAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
-        var seconds: Int
+        var startDate: Date
         var routines: [String]
     }
 }

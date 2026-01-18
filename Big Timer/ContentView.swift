@@ -231,12 +231,6 @@ struct ContentView: View {
             if let start = startTime {
                 let elapsed = Int(Date().timeIntervalSince(start))
                 seconds = elapsed
-                
-                // Only update Live Activity when second changes
-                if elapsed != lastUpdatedSecond {
-                    lastUpdatedSecond = elapsed
-                    updateLiveActivity()
-                }
             }
         }
     }
@@ -279,9 +273,11 @@ struct ContentView: View {
     }
     
     private func startLiveActivity() {
+        guard let startTime = startTime else { return }
+        
         let attributes = TimerActivityAttributes()
         let contentState = TimerActivityAttributes.ContentState(
-            seconds: seconds,
+            startDate: startTime,
             routines: Array(selectedRoutines).sorted()
         )
         
@@ -297,11 +293,11 @@ struct ContentView: View {
     }
     
     private func updateLiveActivity() {
-        guard let activity = activity else { return }
+        guard let activity = activity, let startTime = startTime else { return }
         
         Task {
             let contentState = TimerActivityAttributes.ContentState(
-                seconds: seconds,
+                startDate: startTime,
                 routines: Array(selectedRoutines).sorted()
             )
             
