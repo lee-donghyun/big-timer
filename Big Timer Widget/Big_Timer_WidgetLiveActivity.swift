@@ -89,9 +89,10 @@ struct Big_Timer_WidgetLiveActivity: Widget {
                     .monospacedDigit()
                     .frame(width: 48, alignment: .trailing)
             } minimal: {
-                Image(systemName: "timer")
-                    .font(.system(size: 12, weight: .medium))
+                Text(timerInterval: context.state.startDate...Date.distantFuture, countsDown: false)
+                    .font(.system(size: 10, weight: .regular, design: .monospaced))
                     .foregroundColor(.white)
+                    .monospacedDigit()
             }
             .keylineTint(Color.white)
         }
