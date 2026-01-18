@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var activity: Activity<TimerActivityAttributes>?
     @State private var startTime: Date?
     @State private var selectedRoutines: Set<String> = []
+    @State private var lastUpdatedSecond: Int = -1
     
     let routineOptions = ["Back", "Legs", "Chest", "Shoulder", "Biceps", "Triceps"]
     
@@ -86,6 +87,10 @@ struct ContentView: View {
                                 } else {
                                     selectedRoutines.insert(routine)
                                 }
+                                
+                                // Save to UserDefaults
+                                UserDefaults.standard.set(Array(selectedRoutines), forKey: "selectedRoutines")
+                                
                                 if isRunning {
                                     updateLiveActivity()
                                 }
@@ -197,15 +202,25 @@ struct ContentView: View {
                 isRunning = true
                 startTimer()
             }
+            
+            // Restore selected routines
+            if let savedRoutines = UserDefaults.standard.array(forKey: "selectedRoutines") as? [String] {
+                selectedRoutines = Set(savedRoutines)
+            }
         }
         .onDisappear {
-            stopTimer()
+            // Don't stop the timer, just save the state
+            // Timer should continue running in background
+            
+            // Save selected routines
+            UserDefaults.standard.set(Array(selectedRoutines), forKey: "selectedRoutines")
         }
     }
     
     private func startTimer() {
         if startTime == nil {
-            startTime = Date()
+            // First time start - set start time to now minus already elapsed seconds
+            startTime = Date().addingTimeInterval(-Double(seconds))
             UserDefaults.standard.set(startTime, forKey: "timerStartTime")
         }
         
@@ -216,7 +231,12 @@ struct ContentView: View {
             if let start = startTime {
                 let elapsed = Int(Date().timeIntervalSince(start))
                 seconds = elapsed
-                updateLiveActivity()
+                
+                // Only update Live Activity when second changes
+                if elapsed != lastUpdatedSecond {
+                    lastUpdatedSecond = elapsed
+                    updateLiveActivity()
+                }
             }
         }
     }
@@ -225,6 +245,8 @@ struct ContentView: View {
         isRunning = false
         timer?.invalidate()
         timer = nil
+        startTime = nil  // Clear startTime so it can be recalculated on continue
+        UserDefaults.standard.removeObject(forKey: "timerStartTime")
         endLiveActivity()
     }
     
@@ -233,6 +255,9 @@ struct ContentView: View {
         startTime = nil
         UserDefaults.standard.removeObject(forKey: "timerStartTime")
         seconds = 0
+        lastUpdatedSecond = -1
+        selectedRoutines.removeAll()
+        UserDefaults.standard.removeObject(forKey: "selectedRoutines")
     }
     
     private func submitTimer() {
@@ -246,6 +271,9 @@ struct ContentView: View {
         // Reset after submission
         resetTimer()
         selectedRoutines.removeAll()
+        
+        // Clear saved routines
+        UserDefaults.standard.removeObject(forKey: "selectedRoutines")
         
         print("Submitted workout session")
     }
@@ -274,7 +302,11 @@ struct ContentView: View {
                 seconds: seconds,
                 routines: Array(selectedRoutines).sorted()
             )
-            await activity?.update(.init(state: contentState, staleDate: nil))
+            
+            // Set staleDate to 2 seconds in the future to ensure timely updates
+            let staleDate = Date().addingTimeInterval(2)
+            
+            await activity?.update(.init(state: contentState, staleDate: staleDate))
         }
     }
     
