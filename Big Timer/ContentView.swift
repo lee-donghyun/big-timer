@@ -297,16 +297,20 @@ struct ContentView: View {
     }
     
     private func updateLiveActivity() {
+        guard let activity = activity else { return }
+        
         Task {
             let contentState = TimerActivityAttributes.ContentState(
                 seconds: seconds,
                 routines: Array(selectedRoutines).sorted()
             )
             
-            // Set staleDate to 2 seconds in the future to ensure timely updates
-            let staleDate = Date().addingTimeInterval(2)
-            
-            await activity?.update(.init(state: contentState, staleDate: staleDate))
+            await activity.update(
+                ActivityContent(
+                    state: contentState,
+                    staleDate: nil
+                )
+            )
         }
     }
     
