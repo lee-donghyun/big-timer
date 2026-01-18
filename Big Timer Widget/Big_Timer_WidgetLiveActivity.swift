@@ -14,11 +14,16 @@ struct Big_Timer_WidgetLiveActivity: Widget {
         ActivityConfiguration(for: TimerActivityAttributes.self) { context in
             // Lock screen/banner UI
             VStack(alignment: .trailing, spacing: 8) {
-                Text(context.state.startDate, style: .timer)
-                    .font(.system(size: 20, weight: .regular, design: .monospaced))
-                    .foregroundColor(.white)
-                    .monospacedDigit()
-                    .frame(maxWidth: .infinity, alignment: .trailing)
+                HStack {
+                    Text("Timer")
+                        .font(.system(size: 13, weight: .medium, design: .monospaced))
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text(context.state.startDate, style: .timer)
+                        .font(.system(size: 20, weight: .regular, design: .monospaced))
+                        .foregroundColor(.white)
+                        .monospacedDigit()
+                }
                 
                 if !context.state.routines.isEmpty {
                     HStack(alignment: .top, spacing: 6) {
@@ -44,11 +49,16 @@ struct Big_Timer_WidgetLiveActivity: Widget {
                 // Expanded UI
                 DynamicIslandExpandedRegion(.center) {
                     VStack(alignment: .trailing, spacing: 12) {
-                        Text(context.state.startDate, style: .timer)
-                            .font(.system(size: 24, weight: .regular, design: .monospaced))
-                            .foregroundColor(.white)
-                            .monospacedDigit()
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                        HStack {
+                            Text("Timer")
+                                .font(.system(size: 20, weight: .medium, design: .monospaced))
+                                .foregroundColor(.white)
+                            Spacer()
+                            Text(context.state.startDate, style: .timer)
+                                .font(.system(size: 24, weight: .regular, design: .monospaced))
+                                .foregroundColor(.white)
+                                .monospacedDigit()
+                        }
                         
                         if !context.state.routines.isEmpty {
                             HStack(alignment: .top, spacing: 6) {
