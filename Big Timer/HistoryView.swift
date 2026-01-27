@@ -11,6 +11,7 @@ struct HistoryView: View {
     @ObservedObject var sessionManager: WorkoutSessionManager
     @State private var selectedDate: Date = Date()
     @State private var currentMonth: Date = Date()
+    @State private var showAddSheet = false
     
     let calendar = Calendar.current
     let daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"]
@@ -84,10 +85,25 @@ struct HistoryView: View {
                 
                 // Session list for selected date
                 VStack(alignment: .leading, spacing: 12) {
-                    Text(selectedDateString)
-                        .font(.system(size: 11, weight: .medium, design: .monospaced))
-                        .foregroundColor(.white)
-                        .tracking(2)
+                    HStack {
+                        Text(selectedDateString)
+                            .font(.system(size: 11, weight: .medium, design: .monospaced))
+                            .foregroundColor(.white)
+                            .tracking(2)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            showAddSheet = true
+                        }) {
+                            Image(systemName: "plus")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(.white)
+                                .frame(width: 28, height: 28)
+                                .background(Color.white.opacity(0.1))
+                                .clipShape(Circle())
+                        }
+                    }
                     
                     let sessions = sessionManager.getSessions(for: selectedDate)
                     
@@ -111,6 +127,9 @@ struct HistoryView: View {
                 
                 Spacer()
             }
+        }
+        .sheet(isPresented: $showAddSheet) {
+            AddSessionSheet(date: selectedDate, sessionManager: sessionManager, isPresented: $showAddSheet)
         }
     }
     
@@ -296,6 +315,234 @@ struct SessionCard: View {
     }
 }
 
+struct AddSessionSheet: View {
+    let date: Date
+    @ObservedObject var sessionManager: WorkoutSessionManager
+    @Binding var isPresented: Bool
+    
+    @State private var selectedTime = Date()
+    @State private var durationHours = "0"
+    @State private var durationMinutes = "0"
+    @State private var durationSeconds = "0"
+    @State private var selectedRoutines: Set<String> = []
+    @State private var atePowder = false
+    @FocusState private var isInputActive: Bool
+    
+    let routineOptions = ["Back", "Legs", "Chest", "Shoulder", "Biceps", "Triceps"]
+    
+    var body: some View {
+        ZStack {
+            Color.black
+                .ignoresSafeArea()
+            
+            VStack(alignment: .leading, spacing: 24) {
+                HStack {
+                    Text("ADD WORKOUT")
+                        .font(.system(size: 11, weight: .medium, design: .monospaced))
+                        .foregroundColor(.white)
+                        .tracking(2)
+                    Spacer()
+                    Button(action: {
+                        isPresented = false
+                    }) {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(.white)
+                    }
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 60)
+                
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("TIME")
+                        .font(.system(size: 11, weight: .medium, design: .monospaced))
+                        .foregroundColor(.white)
+                        .tracking(2)
+                    
+                    DatePicker("", selection: $selectedTime, displayedComponents: .hourAndMinute)
+                        .datePickerStyle(.wheel)
+                        .labelsHidden()
+                        .colorScheme(.dark)
+                }
+                .padding(.horizontal, 24)
+                
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("DURATION")
+                        .font(.system(size: 11, weight: .medium, design: .monospaced))
+                        .foregroundColor(.white)
+                        .tracking(2)
+                    
+                    HStack(spacing: 12) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Hours")
+                                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                                .foregroundColor(.white.opacity(0.5))
+                            TextField("", text: $durationHours)
+                                .font(.system(size: 15, weight: .medium, design: .monospaced))
+                                .foregroundColor(.white)
+                                .keyboardType(.numberPad)
+                                .focused($isInputActive)
+                                .padding(12)
+                                .background(Color.black)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.white, lineWidth: 1)
+                                )
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Minutes")
+                                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                                .foregroundColor(.white.opacity(0.5))
+                            TextField("", text: $durationMinutes)
+                                .font(.system(size: 15, weight: .medium, design: .monospaced))
+                                .foregroundColor(.white)
+                                .keyboardType(.numberPad)
+                                .focused($isInputActive)
+                                .padding(12)
+                                .background(Color.black)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.white, lineWidth: 1)
+                                )
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Seconds")
+                                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                                .foregroundColor(.white.opacity(0.5))
+                            TextField("", text: $durationSeconds)
+                                .font(.system(size: 15, weight: .medium, design: .monospaced))
+                                .foregroundColor(.white)
+                                .keyboardType(.numberPad)
+                                .focused($isInputActive)
+                                .padding(12)
+                                .background(Color.black)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.white, lineWidth: 1)
+                                )
+                        }
+                    }
+                }
+                .padding(.horizontal, 24)
+                
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("ROUTINES")
+                        .font(.system(size: 11, weight: .medium, design: .monospaced))
+                        .foregroundColor(.white)
+                        .tracking(2)
+                    
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                        ForEach(routineOptions, id: \.self) { routine in
+                            Button(action: {
+                                if selectedRoutines.contains(routine) {
+                                    selectedRoutines.remove(routine)
+                                } else {
+                                    selectedRoutines.insert(routine)
+                                }
+                            }) {
+                                Text(routine)
+                                    .font(.system(size: 14, weight: .medium, design: .monospaced))
+                                    .foregroundColor(selectedRoutines.contains(routine) ? .black : .white)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 44)
+                                    .background(selectedRoutines.contains(routine) ? Color.white : Color.black)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(Color.white, lineWidth: 1)
+                                    )
+                                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                            }
+                        }
+                    }
+                }
+                .padding(.horizontal, 24)
+                
+                Button(action: {
+                    if atePowder {
+                        atePowder = false
+                    } else {
+                        atePowder = true
+                    }
+                }) {
+                    HStack {
+                        Image(systemName: atePowder ? "checkmark.square.fill" : "square")
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundColor(.white)
+                        Text("Ate Powder")
+                            .font(.system(size: 14, weight: .medium, design: .monospaced))
+                            .foregroundColor(.white)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(12)
+                    .background(Color.black)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.white, lineWidth: 1)
+                    )
+                }
+                .padding(.horizontal, 24)
+                
+                Button(action: {
+                    addSession()
+                }) {
+                    Text("Add Workout")
+                        .font(.system(size: 15, weight: .medium, design: .monospaced))
+                        .foregroundColor(.black)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(Color.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+                .padding(.horizontal, 24)
+                
+                Spacer()
+            }
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") {
+                    isInputActive = false
+                }
+                .foregroundColor(.white)
+            }
+        }
+    }
+    
+    private func addSession() {
+        let hours = Int(durationHours) ?? 0
+        let minutes = Int(durationMinutes) ?? 0
+        let seconds = Int(durationSeconds) ?? 0
+        let totalSeconds = hours * 3600 + minutes * 60 + seconds
+        
+        guard totalSeconds > 0 else { return }
+        
+        let calendar = Calendar.current
+        let timeComponents = calendar.dateComponents([.hour, .minute], from: selectedTime)
+        let dateComponents = calendar.dateComponents([.year, .month, .day], from: date)
+        
+        var combinedComponents = DateComponents()
+        combinedComponents.year = dateComponents.year
+        combinedComponents.month = dateComponents.month
+        combinedComponents.day = dateComponents.day
+        combinedComponents.hour = timeComponents.hour
+        combinedComponents.minute = timeComponents.minute
+        
+        if let finalDate = calendar.date(from: combinedComponents) {
+            let newSession = WorkoutSession(
+                date: finalDate,
+                duration: totalSeconds,
+                routines: Array(selectedRoutines).sorted(),
+                atePowder: atePowder
+            )
+            sessionManager.addSession(newSession)
+            isPresented = false
+        }
+    }
+}
+
 struct EditSessionSheet: View {
     let session: WorkoutSession
     @ObservedObject var sessionManager: WorkoutSessionManager
@@ -305,6 +552,7 @@ struct EditSessionSheet: View {
     @State private var durationMinutes: String
     @State private var durationSeconds: String
     @State private var selectedRoutines: Set<String>
+    @FocusState private var isInputActive: Bool
     
     let routineOptions = ["Back", "Legs", "Chest", "Shoulder", "Biceps", "Triceps"]
     
@@ -360,6 +608,7 @@ struct EditSessionSheet: View {
                                 .font(.system(size: 15, weight: .medium, design: .monospaced))
                                 .foregroundColor(.white)
                                 .keyboardType(.numberPad)
+                                .focused($isInputActive)
                                 .padding(12)
                                 .background(Color.black)
                                 .overlay(
@@ -376,6 +625,7 @@ struct EditSessionSheet: View {
                                 .font(.system(size: 15, weight: .medium, design: .monospaced))
                                 .foregroundColor(.white)
                                 .keyboardType(.numberPad)
+                                .focused($isInputActive)
                                 .padding(12)
                                 .background(Color.black)
                                 .overlay(
@@ -392,6 +642,7 @@ struct EditSessionSheet: View {
                                 .font(.system(size: 15, weight: .medium, design: .monospaced))
                                 .foregroundColor(.white)
                                 .keyboardType(.numberPad)
+                                .focused($isInputActive)
                                 .padding(12)
                                 .background(Color.black)
                                 .overlay(
@@ -449,6 +700,15 @@ struct EditSessionSheet: View {
                 .padding(.horizontal, 24)
                 
                 Spacer()
+            }
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") {
+                    isInputActive = false
+                }
+                .foregroundColor(.white)
             }
         }
     }
