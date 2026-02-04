@@ -97,28 +97,4 @@ struct Big_Timer_WidgetLiveActivity: Widget {
             .keylineTint(Color.white)
         }
     }
-    
-    func formatTime(_ seconds: Int) -> String {
-        let hours = seconds / 3600
-        let minutes = (seconds % 3600) / 60
-        let secs = seconds % 60
-        
-        if hours > 0 {
-            return String(format: "%02d:%02d:%02d", hours, minutes, secs)
-        } else {
-            return String(format: "%02d:%02d", minutes, secs)
-        }
-    }
-    
-    func formatTimeCompact(_ seconds: Int) -> String {
-        let hours = seconds / 3600
-        let minutes = (seconds % 3600) / 60
-        let secs = seconds % 60
-        
-        if hours > 0 {
-            return String(format: "%d:%02d:%02d", hours, minutes, secs)
-        } else {
-            return String(format: "%02d:%02d", minutes, secs)
-        }
-    }
 }

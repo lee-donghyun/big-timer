@@ -8,6 +8,8 @@
 import SwiftUI
 import ActivityKit
 
+let appGroupID = "group.lee-donghyun.Big-Timer"
+
 struct ContentView: View {
     @ObservedObject var sessionManager: WorkoutSessionManager
     @State private var seconds: Int = 0
@@ -17,6 +19,10 @@ struct ContentView: View {
     @State private var startTime: Date?
     @State private var selectedRoutines: Set<String> = []
     @State private var lastUpdatedSecond: Int = -1
+    
+    private var sharedDefaults: UserDefaults? {
+        UserDefaults(suiteName: appGroupID)
+    }
     
     let routineOptions = ["Back", "Legs", "Chest", "Shoulder", "Biceps", "Triceps"]
     
@@ -89,7 +95,7 @@ struct ContentView: View {
                                 }
                                 
                                 // Save to UserDefaults
-                                UserDefaults.standard.set(Array(selectedRoutines), forKey: "selectedRoutines")
+                                sharedDefaults?.set(Array(selectedRoutines), forKey: "selectedRoutines")
                                 
                                 if isRunning {
                                     updateLiveActivity()
@@ -197,14 +203,14 @@ struct ContentView: View {
         }
         .onAppear {
             // Restore timer if it was running
-            if let savedStartTime = UserDefaults.standard.object(forKey: "timerStartTime") as? Date {
+            if let savedStartTime = sharedDefaults?.object(forKey: "timerStartTime") as? Date {
                 startTime = savedStartTime
                 isRunning = true
                 startTimer()
             }
             
             // Restore selected routines
-            if let savedRoutines = UserDefaults.standard.array(forKey: "selectedRoutines") as? [String] {
+            if let savedRoutines = sharedDefaults?.array(forKey: "selectedRoutines") as? [String] {
                 selectedRoutines = Set(savedRoutines)
             }
         }
@@ -213,7 +219,7 @@ struct ContentView: View {
             // Timer should continue running in background
             
             // Save selected routines
-            UserDefaults.standard.set(Array(selectedRoutines), forKey: "selectedRoutines")
+            sharedDefaults?.set(Array(selectedRoutines), forKey: "selectedRoutines")
         }
     }
     
@@ -221,13 +227,13 @@ struct ContentView: View {
         if startTime == nil {
             // First time start - set start time to now minus already elapsed seconds
             startTime = Date().addingTimeInterval(-Double(seconds))
-            UserDefaults.standard.set(startTime, forKey: "timerStartTime")
+            sharedDefaults?.set(startTime, forKey: "timerStartTime")
         }
         
         isRunning = true
         startLiveActivity()
         
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [self] _ in
             if let start = startTime {
                 let elapsed = Int(Date().timeIntervalSince(start))
                 seconds = elapsed
@@ -240,18 +246,18 @@ struct ContentView: View {
         timer?.invalidate()
         timer = nil
         startTime = nil  // Clear startTime so it can be recalculated on continue
-        UserDefaults.standard.removeObject(forKey: "timerStartTime")
+        sharedDefaults?.removeObject(forKey: "timerStartTime")
         endLiveActivity()
     }
     
     private func resetTimer() {
         stopTimer()
         startTime = nil
-        UserDefaults.standard.removeObject(forKey: "timerStartTime")
+        sharedDefaults?.removeObject(forKey: "timerStartTime")
         seconds = 0
         lastUpdatedSecond = -1
         selectedRoutines.removeAll()
-        UserDefaults.standard.removeObject(forKey: "selectedRoutines")
+        sharedDefaults?.removeObject(forKey: "selectedRoutines")
     }
     
     private func submitTimer() {
@@ -267,7 +273,7 @@ struct ContentView: View {
         selectedRoutines.removeAll()
         
         // Clear saved routines
-        UserDefaults.standard.removeObject(forKey: "selectedRoutines")
+        sharedDefaults?.removeObject(forKey: "selectedRoutines")
         
         print("Submitted workout session")
     }
@@ -281,14 +287,24 @@ struct ContentView: View {
             routines: Array(selectedRoutines).sorted()
         )
         
-        do {
-            activity = try Activity<TimerActivityAttributes>.request(
-                attributes: attributes,
-                content: .init(state: contentState, staleDate: nil),
-                pushType: nil
-            )
-        } catch {
-            print("Error starting Live Activity: \(error)")
+        Task {
+            // End all existing Live Activities first to ensure only one is active
+            for existingActivity in Activity<TimerActivityAttributes>.activities {
+                await existingActivity.end(nil, dismissalPolicy: .immediate)
+            }
+            
+            do {
+                let newActivity = try Activity<TimerActivityAttributes>.request(
+                    attributes: attributes,
+                    content: .init(state: contentState, staleDate: nil),
+                    pushType: nil
+                )
+                await MainActor.run {
+                    self.activity = newActivity
+                }
+            } catch {
+                print("Error starting Live Activity: \(error)")
+            }
         }
     }
     

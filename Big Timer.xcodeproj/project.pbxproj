@@ -10,6 +10,7 @@
 		43CACB532F1B946400CCA146 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CACB522F1B946300CCA146 /* WidgetKit.framework */; };
 		43CACB552F1B946400CCA146 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CACB542F1B946400CCA146 /* SwiftUI.framework */; };
 		43CACB662F1B946600CCA146 /* Big Timer WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 43CACB502F1B946300CCA146 /* Big Timer WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		43CACB702F1B946700CCA146 /* TimerActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CACB712F1B946700CCA146 /* TimerActivityAttributes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		43CACB502F1B946300CCA146 /* Big Timer WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Big Timer WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		43CACB522F1B946300CCA146 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		43CACB542F1B946400CCA146 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		43CACB712F1B946700CCA146 /* TimerActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimerActivityAttributes.swift; path = "Big Timer/TimerActivityAttributes.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -51,21 +53,11 @@
 			);
 			target = 43CACB4F2F1B946300CCA146 /* Big Timer WidgetExtension */;
 		};
-		43CACB6F2F1B94AF00CCA146 /* Exceptions for "Big Timer" folder in "Big Timer WidgetExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				TimerActivityAttributes.swift,
-			);
-			target = 43CACB4F2F1B946300CCA146 /* Big Timer WidgetExtension */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		43CACB3E2F1B8D6700CCA146 /* Big Timer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				43CACB6F2F1B94AF00CCA146 /* Exceptions for "Big Timer" folder in "Big Timer WidgetExtension" target */,
-			);
 			path = "Big Timer";
 			sourceTree = "<group>";
 		};
@@ -102,6 +94,7 @@
 		43CACB332F1B8D6700CCA146 = {
 			isa = PBXGroup;
 			children = (
+				43CACB712F1B946700CCA146 /* TimerActivityAttributes.swift */,
 				43CACB3E2F1B8D6700CCA146 /* Big Timer */,
 				43CACB562F1B946400CCA146 /* Big Timer Widget */,
 				43CACB512F1B946300CCA146 /* Frameworks */,
@@ -243,6 +236,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43CACB702F1B946700CCA146 /* TimerActivityAttributes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +375,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Big Timer/Big_Timer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 58M74K3SMU;
@@ -415,6 +410,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Big Timer/Big_Timer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 58M74K3SMU;
@@ -449,6 +445,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "Big Timer Widget/Big_Timer_Widget.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 58M74K3SMU;
@@ -479,6 +476,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "Big Timer Widget/Big_Timer_Widget.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 58M74K3SMU;
