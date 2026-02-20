@@ -90,6 +90,14 @@ class WorkoutSessionManager: ObservableObject {
         return Set(sessions.map { calendar.startOfDay(for: $0.date) })
     }
     
+    func hasSessionToday() -> Bool {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        return sessions.contains { session in
+            calendar.isDate(session.date, inSameDayAs: today)
+        }
+    }
+    
     private func saveSessions() {
         if let encoded = try? JSONEncoder().encode(sessions) {
             UserDefaults.standard.set(encoded, forKey: sessionsKey)

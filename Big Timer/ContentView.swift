@@ -268,6 +268,9 @@ struct ContentView: View {
         )
         sessionManager.addSession(session)
         
+        // Cancel pending gym notifications since user worked out
+        NotificationManager.shared.cancelAllGymNotifications()
+        
         // Reset after submission
         resetTimer()
         selectedRoutines.removeAll()
