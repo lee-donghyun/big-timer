@@ -98,9 +98,12 @@ class WorkoutSessionManager: ObservableObject {
         }
     }
     
+    private let sharedDefaults = UserDefaults(suiteName: "group.lee-donghyun.Big-Timer")
+    
     private func saveSessions() {
         if let encoded = try? JSONEncoder().encode(sessions) {
             UserDefaults.standard.set(encoded, forKey: sessionsKey)
+            sharedDefaults?.set(encoded, forKey: sessionsKey)
         }
     }
     
