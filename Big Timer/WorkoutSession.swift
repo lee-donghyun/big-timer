@@ -111,6 +111,8 @@ class WorkoutSessionManager: ObservableObject {
         if let data = UserDefaults.standard.data(forKey: sessionsKey),
            let decoded = try? JSONDecoder().decode([WorkoutSession].self, from: data) {
             sessions = decoded
+            // Sync to shared defaults so the widget can access them
+            sharedDefaults?.set(data, forKey: sessionsKey)
         }
     }
 }
