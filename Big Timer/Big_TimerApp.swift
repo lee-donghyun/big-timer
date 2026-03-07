@@ -12,11 +12,12 @@ import UserNotifications
 @main
 struct Big_TimerApp: App {
     @StateObject private var sessionManager = WorkoutSessionManager()
+    @StateObject private var weightManager = WeightEntryManager()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
         WindowGroup {
-            MainView(sessionManager: sessionManager)
+            MainView(sessionManager: sessionManager, weightManager: weightManager)
                 .onAppear {
                     setupNotifications()
                 }

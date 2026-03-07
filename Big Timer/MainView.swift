@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     @ObservedObject var sessionManager: WorkoutSessionManager
+    @ObservedObject var weightManager: WeightEntryManager
     @State private var selectedTab: Int = 0
     
     var body: some View {
@@ -21,8 +22,10 @@ struct MainView: View {
                 Group {
                     if selectedTab == 0 {
                         ContentView(sessionManager: sessionManager)
-                    } else {
+                    } else if selectedTab == 1 {
                         HistoryView(sessionManager: sessionManager)
+                    } else {
+                        WeightView(weightManager: weightManager)
                     }
                 }
                 
@@ -42,6 +45,14 @@ struct MainView: View {
                         isSelected: selectedTab == 1
                     ) {
                         selectedTab = 1
+                    }
+                    
+                    TabButton(
+                        icon: "scalemass",
+                        label: "Weight",
+                        isSelected: selectedTab == 2
+                    ) {
+                        selectedTab = 2
                     }
                 }
                 .frame(height: 60)
@@ -82,5 +93,5 @@ struct TabButton: View {
 }
 
 #Preview {
-    MainView(sessionManager: WorkoutSessionManager())
+    MainView(sessionManager: WorkoutSessionManager(), weightManager: WeightEntryManager())
 }

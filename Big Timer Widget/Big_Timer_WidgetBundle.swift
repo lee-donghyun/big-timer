@@ -14,5 +14,6 @@ struct Big_Timer_WidgetBundle: WidgetBundle {
         Big_Timer_Widget()
         Big_Timer_WidgetControl()
         Big_Timer_WidgetLiveActivity()
+        WeightTrendWidget()
     }
 }
